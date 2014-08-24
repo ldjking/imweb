@@ -160,25 +160,10 @@ app.all('*', function(req, res, next) {
    else  next();
 });
 app.use("/handler/", handler); //服务处理程序 handler
-app.use("/web/", function(req,res,next){
-		var url=req.url;
-		//console.log("url="+req.url);
-		if(url.match(/\.dot.html/g)){//使用ejs编译一次
-			var htmlParser=require("./lib/dot/parse");//解析html页面
-			var html=htmlParser(url,"./web");//目录是相对于当前文件的目录
-			res.setHeader("Content-Type", "text/html;charset=utf8");
-			res.end(html);
-			//console.log("使用dot模板进行编译");
-			//var dataPath="./web"+url.replace("");
-		}
-		else{
-			next();
-		}
-	}); //静态资源web
 app.use("/web/", express.static(__dirname + '/web')); //静态资源web
 
 var port=3003;
-var host="localhost";
+var host="127.0.0.1";
 
 console.log("app listen host=["+host+"] on port=["+port+"]");
 app.listen(port,host);
